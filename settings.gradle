@@ -1,0 +1,17 @@
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+
+    pluginManagement {
+        //..
+        plugins {
+            id 'org.jetbrains.kotlin.android' version '1.5.21'
+        }
+    }
+    repositories {
+        google()
+        mavenCentral()
+        jcenter() // Warning: this repository is going to shut down soon
+    }
+}
+rootProject.name = "PokemonSearch"
+include ':app'
