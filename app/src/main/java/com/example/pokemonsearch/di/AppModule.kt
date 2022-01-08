@@ -11,18 +11,18 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-//@Module
-//@InstallIn(SingletonComponent::class)
+@Module
+@InstallIn(SingletonComponent::class)
 object AppModule {
 
-//    @Provides
-//    @Singleton
+    @Provides
+    @Singleton
     fun providePokemonRepository(
         api: PokeApi
     ) = PokemonRepository(api = api)
 
-//    @Provides
-//    @Singleton
+    @Provides
+    @Singleton
     fun providePokeApi() : PokeApi {
         return Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
