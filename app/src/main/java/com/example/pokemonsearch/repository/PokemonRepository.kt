@@ -9,8 +9,7 @@ import java.lang.Exception
 import javax.inject.Inject
 
 @ActivityScoped
-class PokemonRepository
-@Inject constructor(private val api: PokeApi) {
+class PokemonRepository @Inject constructor(private val api: PokeApi) {
 
     suspend fun getPokemonList(limit: Int, offset: Int) : Resource<PokemonList> {
         val response = try {
