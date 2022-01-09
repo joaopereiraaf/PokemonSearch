@@ -3,6 +3,7 @@ package com.example.pokemonsearch
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.remember
@@ -18,6 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @ExperimentalFoundationApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -31,20 +33,20 @@ class MainActivity : ComponentActivity() {
                         composable("pokemon_list_screen") {
                             PokemonListScreen(navController = navController)
                         }
-                        composable("pokemon_detail_screen/{dominantColor}/{pokemonName}",
+                        composable("pokemon_detail_screen/{pokemonName}",
                             arguments = listOf(
-                                navArgument("dominantColor") {
-                                    type = NavType.IntType
-                                },
+//                                navArgument("dominantColor") {
+//                                    type = NavType.IntType
+//                                },
                                 navArgument("pokemonName") {
                                     type = NavType.StringType
                                 }
                             )
                         ) {
-                            val dominantColor = remember {
-                                val color = it.arguments?.getInt("dominantColor")
-                                color?. let { Color(it) } ?: Color.White
-                            }
+//                            val dominantColor = remember {
+//                                val color = it.arguments?.getInt("dominantColor")
+//                                color?. let { Color(it) } ?: Color.White
+//                            }
                             val pokemonName = remember {
                                 it.arguments?.getString("pokemonName")
                             }
