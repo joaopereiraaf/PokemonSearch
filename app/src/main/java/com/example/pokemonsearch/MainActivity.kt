@@ -7,15 +7,17 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.remember
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.toLowerCase
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.pokemonsearch.presenter.PokemonListScreen
+import com.example.pokemonsearch.presenter.detailscreen.PokemonDetailScreen
+import com.example.pokemonsearch.presenter.listscreen.PokemonListScreen
 import com.example.pokemonsearch.ui.theme.PokemonSearchTheme
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -35,21 +37,18 @@ class MainActivity : ComponentActivity() {
                         }
                         composable("pokemon_detail_screen/{pokemonName}",
                             arguments = listOf(
-//                                navArgument("dominantColor") {
-//                                    type = NavType.IntType
-//                                },
                                 navArgument("pokemonName") {
                                     type = NavType.StringType
                                 }
                             )
                         ) {
-//                            val dominantColor = remember {
-//                                val color = it.arguments?.getInt("dominantColor")
-//                                color?. let { Color(it) } ?: Color.White
-//                            }
                             val pokemonName = remember {
                                 it.arguments?.getString("pokemonName")
                             }
+                            PokemonDetailScreen(
+                                pokemonName = pokemonName?.lowercase(Locale.ROOT) ?: "",
+                                navController = navController
+                            )
                         }
                     }
                 }
