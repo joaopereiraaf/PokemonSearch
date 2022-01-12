@@ -34,7 +34,7 @@ fun PokemonListScreen(
     viewModel: PokemonListViewModel = hiltViewModel()
 ) {
     Surface(
-        color = MaterialTheme.colors.background,
+        color = Color.LightGray,
         modifier = Modifier.fillMaxSize()
     ) {
         Column {
