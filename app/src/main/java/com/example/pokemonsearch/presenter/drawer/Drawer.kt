@@ -8,6 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -18,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.example.pokemonsearch.R
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -32,13 +34,25 @@ fun Drawer(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.background(Color.LightGray)
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    Brush.verticalGradient(
+                        listOf(
+                            Color.Black,
+                            Color.Transparent
+                        )
+                    )
+                ),
+            contentAlignment = Alignment.TopCenter,
         ) {
             PicForTopDrawer()
             Column(
-                modifier = Modifier.padding(10.dp)
+                modifier = Modifier
+                    .padding(top = 216.dp, start = 16.dp, end = 16.dp, bottom = 16.dp),
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.Top
             ) {
                 Text(
                     text = "Pokemon Info",
@@ -113,7 +127,7 @@ fun PicForTopDrawer() {
     Image(
         painter = painterResource(id = R.drawable.eevee),
         contentDescription = "Some Image",
-        contentScale = ContentScale.Fit,
+        contentScale = ContentScale.Crop,
         modifier = Modifier.size(width = 420.dp, height = 200.dp)
     )
 }

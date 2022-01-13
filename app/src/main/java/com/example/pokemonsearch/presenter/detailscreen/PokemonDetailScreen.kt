@@ -127,15 +127,15 @@ fun PokemonDetailTopSection(
                 )
             )
     ) {
-        Icon(
-            imageVector = Icons.Default.ArrowBack,
-            contentDescription = null,
-            tint = Color.White,
-            modifier = Modifier
-                .size(36.dp)
-                .offset(16.dp, 16.dp)
-                .clickable { navController.popBackStack() }
-        )
+//        Icon(
+//            imageVector = Icons.Default.ArrowBack,
+//            contentDescription = null,
+//            tint = Color.White,
+//            modifier = Modifier
+//                .size(36.dp)
+//                .offset(16.dp, 16.dp)
+//                .clickable { navController.popBackStack() }
+//        )
     }
 }
 

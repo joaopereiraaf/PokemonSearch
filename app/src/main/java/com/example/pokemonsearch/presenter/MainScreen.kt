@@ -3,11 +3,15 @@ package com.example.pokemonsearch.presenter
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.filled.Soap
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -18,11 +22,14 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.pokemonsearch.R
@@ -53,7 +60,12 @@ fun SingleScreenApp() {
             ) },
             backgroundColor = Color.Black,
             navigationIcon = {
-                NavigationIcon(scope = scope, scaffoldState = scaffoldState) },
+                ChangeDynamicIcon(
+                    navController = navController,
+                    scope = scope,
+                    scaffoldState = scaffoldState
+                )
+            },
         ) },
         drawerContent = {
             Drawer(scope = scope, scaffoldState = scaffoldState, navController = navController) },
@@ -134,7 +146,8 @@ fun DrawerNavigation(navController: NavHostController) {
 @Composable
 fun ErrorScreen() {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(
                 Brush.verticalGradient(
                     listOf(
@@ -153,6 +166,27 @@ fun ErrorScreen() {
             color = Color.Red,
             textAlign = TextAlign.Center
         )
+    }
+}
+
+@Composable
+fun ChangeDynamicIcon(navController: NavController, scope: CoroutineScope, scaffoldState: ScaffoldState) {
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStackEntry?.destination?.route
+
+    if (currentRoute == "pokemon_detail_screen/{pokemonName}") {
+        Icon(
+            imageVector = Icons.Default.ArrowBack,
+            contentDescription = "Drawer",
+            tint = Color.White,
+            modifier = Modifier
+                .size(30.dp)
+                .offset(x = 13.dp, y = 2.dp)
+                .clickable { navController.popBackStack() }
+        )
+    } else {
+        NavigationIcon(scope = scope, scaffoldState = scaffoldState)
     }
 }
 
