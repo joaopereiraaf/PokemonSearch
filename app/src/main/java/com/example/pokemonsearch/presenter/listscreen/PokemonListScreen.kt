@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
@@ -35,9 +36,20 @@ fun PokemonListScreen(
 ) {
     Surface(
         color = Color.LightGray,
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
     ) {
-        Column {
+        Column(
+            modifier = Modifier
+                .background(
+                    Brush.verticalGradient(
+                        listOf(
+                            Color.Black,
+                            Color.Transparent
+                        )
+                    )
+                )
+        ) {
             Spacer(modifier = Modifier.height(20.dp))
             SearchBar(
                 hint = "Search...",
@@ -142,8 +154,10 @@ fun PokedexEntry(
     entry: PokemonListEntry,
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: PokemonListViewModel = hiltViewModel()
+//    viewModel: PokemonListViewModel = hiltViewModel()
 ) {
+
+    val lightLightGray = Color(0xFFB5B5B5)
 
     Box(
         contentAlignment = Center,
@@ -151,6 +165,7 @@ fun PokedexEntry(
             .shadow(5.dp, RoundedCornerShape(5.dp))
             .clip(RoundedCornerShape(5.dp))
             .aspectRatio(1f)
+            .background(lightLightGray)
             .clickable {
                 navController.navigate(
                     "pokemon_detail_screen/${entry.pokemonName}"
@@ -168,6 +183,7 @@ fun PokedexEntry(
             )
             Text(
                 text = entry.pokemonName,
+                color = Color.White,
                 fontFamily = FontFamily.Monospace,
                 fontSize = 20.sp,
                 textAlign = TextAlign.Center,

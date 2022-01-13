@@ -72,7 +72,7 @@ fun Drawer(
 
 @Composable
 fun Content(drawer: DrawerScreens, onDestinationClicked: (DrawerScreens) -> Unit) {
-    Column() {
+    Column {
         Card(
             elevation = 5.dp,
             modifier = Modifier
@@ -86,7 +86,7 @@ fun Content(drawer: DrawerScreens, onDestinationClicked: (DrawerScreens) -> Unit
                     .padding(10.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                Column() {
+                Column {
                     Image(
                         painter = painterResource(id = R.drawable.pokeball),
                         contentDescription = "something here",

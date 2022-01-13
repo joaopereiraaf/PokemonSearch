@@ -73,9 +73,16 @@ class PokemonListViewModel @Inject constructor(
                             entry.url.takeLastWhile { it.isDigit() }
                         }
                         val urlPng = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${number}.png"
-                        val urlSvg = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${number}.svg"
+//                        val urlSvg = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${number}.svg"
 
-                        PokemonListEntry(entry.name.capitalize(Locale.ROOT), urlPng, number.toInt())
+                        PokemonListEntry(
+                            entry.name.replaceFirstChar {
+                                if (it.isLowerCase())
+                                    it.titlecase(Locale.ROOT)
+                                else it.toString() },
+                            urlPng,
+                            number.toInt()
+                        )
                     }
                     curPage++
 

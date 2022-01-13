@@ -8,9 +8,11 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.font.FontFamily
@@ -18,23 +20,25 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.pokemonsearch.R
+import com.example.pokemonsearch.presenter.detailscreen.PokemonDetailScreen
 import com.example.pokemonsearch.presenter.drawer.Drawer
 import com.example.pokemonsearch.presenter.drawer.DrawerScreens
 import com.example.pokemonsearch.presenter.listscreen.PokemonListScreen
 import com.google.accompanist.coil.rememberCoilPainter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-
-val lightLightGray = Color(0xFFBDBDBD)
+import java.util.*
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun SingleScreenApp(pokemonName: MutableList<String>) {
+fun SingleScreenApp() {
 
     val scaffoldState = rememberScaffoldState(rememberDrawerState(DrawerValue.Closed))
     val scope = rememberCoroutineScope()
@@ -47,13 +51,13 @@ fun SingleScreenApp(pokemonName: MutableList<String>) {
                 text = "Pokemon App",
                 color = Color.White
             ) },
-            backgroundColor = Color.Gray,
+            backgroundColor = Color.Black,
             navigationIcon = {
                 NavigationIcon(scope = scope, scaffoldState = scaffoldState) },
         ) },
         drawerContent = {
             Drawer(scope = scope, scaffoldState = scaffoldState, navController = navController) },
-        content =  { Navigation(navController = navController, pokemonName) }
+        content =  { DrawerNavigation(navController = navController) }
     )
 }
 
@@ -77,7 +81,16 @@ fun HomeScreen() {
         contentDescription = "Home",
         modifier = Modifier
             .fillMaxSize()
-            .background(lightLightGray),
+            .background(
+                Brush.verticalGradient(
+//                    startY = 0.1f,
+//                    endY = 0.4f,
+                    colors = listOf(
+                        Color.Black,
+                        Color.Transparent
+                    )
+                )
+            ),
         colorFilter = ColorFilter.tint(Color.Gray)
     )
 }
@@ -85,7 +98,7 @@ fun HomeScreen() {
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun Navigation(navController: NavHostController, pokemonName: MutableList<String>) {
+fun DrawerNavigation(navController: NavHostController) {
     NavHost(navController, startDestination = DrawerScreens.Home.route) {
         composable(DrawerScreens.Home.route) {
             HomeScreen()
@@ -97,15 +110,41 @@ fun Navigation(navController: NavHostController, pokemonName: MutableList<String
         composable(DrawerScreens.Moves.route) {
             // SOMETHING
         }
+        composable(route = "pokemon_list_screen") {
+            PokemonListScreen(navController = navController)
+        }
+        composable(route = "pokemon_detail_screen/{pokemonName}",
+            arguments = listOf(
+                navArgument("pokemonName") {
+                    type = NavType.StringType
+                }
+            )
+        ) {
+            val pokemonName = remember {
+                it.arguments?.getString("pokemonName")
+            }
+            PokemonDetailScreen(
+                pokemonName = pokemonName?.lowercase(Locale.ROOT) ?: "",
+                navController = navController
+            )
+        }
     }
 }
 
 @Composable
 fun ErrorScreen() {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
+            .background(
+                Brush.verticalGradient(
+                    listOf(
+                        Color.Black,
+                        Color.Transparent
+                    )
+                )
+            ),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         Text(
             text = "An Unknown Error Occurred.",
