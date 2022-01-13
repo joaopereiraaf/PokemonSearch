@@ -1,5 +1,6 @@
 package com.example.pokemonsearch.presenter
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -9,7 +10,6 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Soap
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -95,8 +95,6 @@ fun HomeScreen() {
             .fillMaxSize()
             .background(
                 Brush.verticalGradient(
-//                    startY = 0.1f,
-//                    endY = 0.4f,
                     colors = listOf(
                         Color.Black,
                         Color.Transparent
@@ -122,10 +120,12 @@ fun DrawerNavigation(navController: NavHostController) {
         composable(DrawerScreens.Moves.route) {
             // SOMETHING
         }
-        composable(route = "pokemon_list_screen") {
+        composable(
+            route = "pokemon_list_screen") {
             PokemonListScreen(navController = navController)
         }
-        composable(route = "pokemon_detail_screen/{pokemonName}",
+        composable(
+            route = "pokemon_detail_screen/{pokemonName}",
             arguments = listOf(
                 navArgument("pokemonName") {
                     type = NavType.StringType
@@ -135,6 +135,7 @@ fun DrawerNavigation(navController: NavHostController) {
             val pokemonName = remember {
                 it.arguments?.getString("pokemonName")
             }
+
             PokemonDetailScreen(
                 pokemonName = pokemonName?.lowercase(Locale.ROOT) ?: "",
                 navController = navController
@@ -183,7 +184,9 @@ fun ChangeDynamicIcon(navController: NavController, scope: CoroutineScope, scaff
             modifier = Modifier
                 .size(30.dp)
                 .offset(x = 13.dp, y = 2.dp)
-                .clickable { navController.popBackStack() }
+                .clickable {
+                    navController.navigate("pokemon_list_screen")
+                }
         )
     } else {
         NavigationIcon(scope = scope, scaffoldState = scaffoldState)

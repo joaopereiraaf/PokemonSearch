@@ -154,7 +154,6 @@ fun PokedexEntry(
     entry: PokemonListEntry,
     navController: NavController,
     modifier: Modifier = Modifier,
-//    viewModel: PokemonListViewModel = hiltViewModel()
 ) {
 
     val lightLightGray = Color(0xFFB5B5B5)

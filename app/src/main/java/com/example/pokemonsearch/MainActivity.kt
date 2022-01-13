@@ -7,6 +7,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -29,8 +30,10 @@ class MainActivity : ComponentActivity() {
 
                     val navController = rememberNavController()
 
-                    NavHost(navController = navController,
-                        startDestination = "landing_page") {
+                    NavHost(
+                        navController = navController,
+                        startDestination = "landing_page"
+                    ) {
 
                         composable(route = "landing_page") {
                             SingleScreenApp()
@@ -41,7 +44,6 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(route = DrawerScreens.Pokemon.route) {
                             PokemonListScreen(navController = navController)
-                            // PokemonListScreen w SearchBar
                         }
                         composable(route = DrawerScreens.Moves.route) {
                             // SOMETHING

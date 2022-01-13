@@ -1,5 +1,6 @@
 package com.example.pokemonsearch.presenter.detailscreen
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.*
@@ -51,6 +52,10 @@ fun PokemonDetailScreen(
     val pokemonInfo = produceState<Resource<Pokemon>>(initialValue = Resource.Loading()) {
         value = viewModel.getPokemonInfo(pokemonName = pokemonName)
     }.value
+
+    BackHandler(onBack = {
+        navController.navigate("pokemon_list_screen")
+    })
 
     Box(
         modifier = Modifier
@@ -127,15 +132,7 @@ fun PokemonDetailTopSection(
                 )
             )
     ) {
-//        Icon(
-//            imageVector = Icons.Default.ArrowBack,
-//            contentDescription = null,
-//            tint = Color.White,
-//            modifier = Modifier
-//                .size(36.dp)
-//                .offset(16.dp, 16.dp)
-//                .clickable { navController.popBackStack() }
-//        )
+
     }
 }
 
