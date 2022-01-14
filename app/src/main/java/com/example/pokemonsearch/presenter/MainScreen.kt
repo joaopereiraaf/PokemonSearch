@@ -1,6 +1,5 @@
 package com.example.pokemonsearch.presenter
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -69,7 +68,7 @@ fun SingleScreenApp() {
         ) },
         drawerContent = {
             Drawer(scope = scope, scaffoldState = scaffoldState, navController = navController) },
-        content =  { DrawerNavigation(navController = navController) }
+        content =  { NavigationOfScreens(navController = navController) }
     )
 }
 
@@ -108,7 +107,7 @@ fun HomeScreen() {
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun DrawerNavigation(navController: NavHostController) {
+fun NavigationOfScreens(navController: NavHostController) {
     NavHost(navController, startDestination = DrawerScreens.Home.route) {
         composable(DrawerScreens.Home.route) {
             HomeScreen()

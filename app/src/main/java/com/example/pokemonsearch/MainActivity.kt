@@ -7,7 +7,6 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -27,28 +26,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             PokemonSearchTheme {
                 Surface(color = MaterialTheme.colors.background) {
-
-                    val navController = rememberNavController()
-
-                    NavHost(
-                        navController = navController,
-                        startDestination = "landing_page"
-                    ) {
-
-                        composable(route = "landing_page") {
-                            SingleScreenApp()
-                        }
-
-                        composable(route = DrawerScreens.Home.route) {
-                            HomeScreen()
-                        }
-                        composable(route = DrawerScreens.Pokemon.route) {
-                            PokemonListScreen(navController = navController)
-                        }
-                        composable(route = DrawerScreens.Moves.route) {
-                            // SOMETHING
-                        }
-                    }
+                    SingleScreenApp()
                 }
             }
         }
