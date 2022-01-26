@@ -10,5 +10,7 @@ data class Gold(
     @SerializedName("front_default")
     val frontDefault: String,
     @SerializedName("front_shiny")
-    val frontShiny: String
+    val frontShiny: String,
+    @SerializedName("front_transparent")
+    val frontTransparent: String
 )

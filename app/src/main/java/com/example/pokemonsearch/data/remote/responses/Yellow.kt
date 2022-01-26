@@ -7,8 +7,12 @@ data class Yellow(
     val backDefault: String,
     @SerializedName("back_gray")
     val backGray: String,
+    @SerializedName("back_transparent")
+    val backTransparent: String,
     @SerializedName("front_default")
     val frontDefault: String,
     @SerializedName("front_gray")
-    val frontGray: String
+    val frontGray: String,
+    @SerializedName("front_transparent")
+    val frontTransparent: String
 )
