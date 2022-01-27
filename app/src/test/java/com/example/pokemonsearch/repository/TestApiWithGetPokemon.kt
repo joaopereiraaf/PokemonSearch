@@ -1,9 +1,7 @@
-package com.example.pokemonsearch
+package com.example.pokemonsearch.repository
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.pokemonsearch.data.remote.PokeApi
-import com.example.pokemonsearch.data.remote.responses.Pokemon
-import com.example.pokemonsearch.repository.PokemonRepository
 import com.google.gson.*
 import junit.framework.Assert.*
 import kotlinx.coroutines.runBlocking
@@ -17,7 +15,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import util.MockResponseFileReader
 
 @RunWith(JUnit4::class)
-class TestPokemonApi {
+class TestApiWithGetPokemon {
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
@@ -49,10 +47,12 @@ class TestPokemonApi {
                 .setResponseCode(200)
                 .setBody(mockedResponse)
         )
-        val response = runBlocking { repository.getPokemon("charmander") }
+        val response = runBlocking { repository.getPokemon("") }
         val json = gson.toJson(response.data)
 
-//        //To test properties equality
+        println(response.data)
+
+        //To test properties equality
 //        val resultResponse = response.data;
 //        val expectedResponse = gson.fromJson(mockedResponse, Pokemon::class.java)
 //        assertEquals(resultResponse?.name, expectedResponse.name)
