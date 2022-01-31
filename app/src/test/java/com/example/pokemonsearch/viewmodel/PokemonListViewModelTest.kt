@@ -5,6 +5,7 @@ import com.example.pokemonsearch.data.remote.PokeApi
 import com.example.pokemonsearch.data.remote.responses.PokemonList
 import com.example.pokemonsearch.presenter.listscreen.PokemonListViewModel
 import com.example.pokemonsearch.repository.PokemonRepository
+import com.example.pokemonsearch.util.Resource
 import com.google.gson.GsonBuilder
 import io.mockk.*
 import kotlinx.coroutines.Dispatchers
@@ -23,7 +24,7 @@ import util.MockResponseFileReader
 class PokemonListViewModelTest {
 
     private val dispatcher = TestCoroutineDispatcher()
-    private lateinit var api: PokeApi
+//    private lateinit var api: PokeApi
     private lateinit var repository: PokemonRepository
     private lateinit var pokemonViewModel: PokemonListViewModel
     private val gson = GsonBuilder()
@@ -35,10 +36,10 @@ class PokemonListViewModelTest {
     fun init() {
         Dispatchers.setMain(dispatcher)
 
-        api = mockk()
+//        api = mockk()
         repository = mockk()
 
-        repository = PokemonRepository(api)
+//        repository = PokemonRepository()
         pokemonViewModel = PokemonListViewModel(repository = repository)
     }
 
@@ -47,7 +48,7 @@ class PokemonListViewModelTest {
         // GIVEN
         val data = MockResponseFileReader("testingApi/testGetPokemonList.json").content
         val mockedPokemonList = gson.fromJson(data, PokemonList::class.java)
-        coEvery { api.getPokemonList(anyInt(), anyInt()) } returns mockedPokemonList
+        coEvery { repository.getPokemonList(anyInt(), anyInt()) } returns Resource.Success(mockedPokemonList)
         pokemonViewModel.isSearching = mutableStateOf(false)
 
         // WHEN
@@ -56,9 +57,9 @@ class PokemonListViewModelTest {
         // THEN
         assertEquals(false, pokemonViewModel.isSearching.value)
         assertNotNull(pokemonViewModel.cachedPokemonList)
-        coVerify { api.getPokemonList(20, 0) }
+        coVerify { repository.getPokemonList(20, 0) }
 
-        coVerify { api.getPokemon(any()) wasNot called}
+        coVerify { repository.getPokemon(any()) wasNot called}
     }
 
     @Test
@@ -66,7 +67,7 @@ class PokemonListViewModelTest {
         // GIVEN
         val data = MockResponseFileReader("testingApi/testGetPokemonList.json").content
         val mockedPokemonList = gson.fromJson(data, PokemonList::class.java)
-        coEvery { api.getPokemonList(anyInt(), anyInt()) } returns mockedPokemonList
+        coEvery { repository.getPokemonList(anyInt(), anyInt()) } returns Resource.Success(mockedPokemonList)
         pokemonViewModel.isSearching = mutableStateOf(false)
 
         // WHEN
@@ -76,7 +77,7 @@ class PokemonListViewModelTest {
         assertEquals(false, pokemonViewModel.isSearching.value)
         assertNotNull(pokemonViewModel.cachedPokemonList)
 
-        coVerify { api.getPokemon(any()) wasNot called }
+        coVerify { repository.getPokemon(any()) wasNot called }
     }
 
     @After
