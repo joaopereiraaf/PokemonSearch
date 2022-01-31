@@ -6,9 +6,7 @@ import com.example.pokemonsearch.data.remote.responses.PokemonList
 import com.example.pokemonsearch.presenter.listscreen.PokemonListViewModel
 import com.example.pokemonsearch.repository.PokemonRepository
 import com.google.gson.GsonBuilder
-import io.mockk.coEvery
-import io.mockk.coVerify
-import io.mockk.mockk
+import io.mockk.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.TestCoroutineDispatcher
@@ -36,7 +34,10 @@ class PokemonListViewModelTest {
     @Before
     fun init() {
         Dispatchers.setMain(dispatcher)
+
         api = mockk()
+        repository = mockk()
+
         repository = PokemonRepository(api)
         pokemonViewModel = PokemonListViewModel(repository = repository)
     }
@@ -56,6 +57,8 @@ class PokemonListViewModelTest {
         assertEquals(false, pokemonViewModel.isSearching.value)
         assertNotNull(pokemonViewModel.cachedPokemonList)
         coVerify { api.getPokemonList(20, 0) }
+
+        coVerify { api.getPokemon(any()) wasNot called}
     }
 
     @Test
@@ -70,9 +73,10 @@ class PokemonListViewModelTest {
         runBlocking { pokemonViewModel.loadPokemonPaginated() }
 
         // THEN
-        coVerify { api.getPokemonList(20, 0) }
         assertEquals(false, pokemonViewModel.isSearching.value)
         assertNotNull(pokemonViewModel.cachedPokemonList)
+
+        coVerify { api.getPokemon(any()) wasNot called }
     }
 
     @After
