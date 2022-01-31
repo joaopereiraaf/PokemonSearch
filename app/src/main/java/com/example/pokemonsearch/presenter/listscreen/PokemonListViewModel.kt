@@ -3,6 +3,7 @@ package com.example.pokemonsearch.presenter.listscreen
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.pokemonsearch.R
 import com.example.pokemonsearch.models.PokemonListEntry
 import com.example.pokemonsearch.repository.PokemonRepository
 import com.example.pokemonsearch.util.Constants.PAGE_SIZE
@@ -12,6 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.plus
 import java.util.*
 import javax.inject.Inject
 
@@ -27,7 +29,7 @@ class PokemonListViewModel @Inject constructor(
     var isLoading = mutableStateOf(false)
     var endReached = mutableStateOf(false)
 
-    private var cachedPokemonList = listOf<PokemonListEntry>()
+    var cachedPokemonList = listOf<PokemonListEntry>()
     private var isSearchStarted = true
     var isSearching = mutableStateOf(false)
 
@@ -75,7 +77,6 @@ class PokemonListViewModel @Inject constructor(
                             entry.url.takeLastWhile { it.isDigit() }
                         }
                         val urlPng = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${number}.png"
-//                        val urlSvg = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/dream-world/${number}.svg"
 
                         PokemonListEntry(
                             entry.name.replaceFirstChar {

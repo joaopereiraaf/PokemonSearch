@@ -19,6 +19,7 @@ class TestApiWithGetPokemon {
 
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
+
     private val server = MockWebServer()
     private lateinit var repository: PokemonRepository
     private lateinit var mockedResponse: String
@@ -50,8 +51,6 @@ class TestApiWithGetPokemon {
         val response = runBlocking { repository.getPokemon("") }
         val json = gson.toJson(response.data)
 
-        println(response.data)
-
         //To test properties equality
 //        val resultResponse = response.data;
 //        val expectedResponse = gson.fromJson(mockedResponse, Pokemon::class.java)
@@ -63,7 +62,6 @@ class TestApiWithGetPokemon {
         val expectedResponse = JsonParser.parseString(mockedResponse)
         assertNotNull(resultResponse)
         assertEquals(resultResponse, expectedResponse)
-        assertTrue(resultResponse.equals(expectedResponse))
     }
 
     @Test

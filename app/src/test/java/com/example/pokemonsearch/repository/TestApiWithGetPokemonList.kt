@@ -21,8 +21,10 @@ import util.MockResponseFileReader
 @RunWith(JUnit4::class)
 class TestApiWithGetPokemonList {
 
+    //executes each task synchronously
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
+
     private val server = MockWebServer()
     private lateinit var repository: PokemonRepository
     private lateinit var mockedResponse: String
@@ -58,7 +60,6 @@ class TestApiWithGetPokemonList {
         val expectedResponse = JsonParser.parseString(mockedResponse)
         assertNotNull(resultResponse)
         assertEquals(resultResponse, expectedResponse)
-        assertTrue(resultResponse.equals(expectedResponse))
     }
 
     @Test

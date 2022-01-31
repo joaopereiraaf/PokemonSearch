@@ -12,20 +12,18 @@ import javax.inject.Inject
 class PokemonRepository @Inject constructor(private val api: PokeApi) {
 
     suspend fun getPokemonList(limit: Int, offset: Int) : Resource<PokemonList> {
-        val response = try {
-            api.getPokemonList(limit = limit, offset = offset)
+        return try {
+            Resource.Success(api.getPokemonList(limit = limit, offset = offset))
         } catch (e: Exception) {
-            return Resource.Error(message = "An unknown error occurred.")
+            Resource.Error(message = "An unknown error occurred.")
         }
-        return Resource.Success(data = response)
     }
 
     suspend fun getPokemon(pokemonName: String) : Resource<Pokemon> {
-        val response = try {
-            api.getPokemon(pokemonName)
+        return try {
+            Resource.Success(api.getPokemon(pokemonName))
         } catch (e: Exception) {
-            return Resource.Error(message = "An unknown error occurred.")
+            Resource.Error(message = "An unknown error occurred.")
         }
-        return Resource.Success(data = response)
     }
 }
