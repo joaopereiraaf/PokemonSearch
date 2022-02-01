@@ -1,12 +1,10 @@
 package com.example.pokemonsearch.repository
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.example.pokemonsearch.CoroutineTestRule
 import com.example.pokemonsearch.data.remote.PokeApi
 import com.google.gson.*
 import junit.framework.Assert.*
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.TestCoroutineDispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.*
@@ -22,8 +20,7 @@ class TestApiWithGetPokemon {
 
     //executes each task synchronously
     @get:Rule
-    val instantExecutorRule = InstantTaskExecutorRule()
-    private val dispatcher = TestCoroutineDispatcher()
+    val coroutineTestRule = CoroutineTestRule()
 
     private val server = MockWebServer()
     private lateinit var repository: PokemonRepository
@@ -78,7 +75,5 @@ class TestApiWithGetPokemon {
     @After
     fun tearDown() {
         server.shutdown()
-        dispatcher.cleanupTestCoroutines()
     }
-
 }

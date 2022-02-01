@@ -1,8 +1,7 @@
 package com.example.pokemonsearch.viewmodel
 
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.compose.runtime.mutableStateOf
-import com.example.pokemonsearch.data.remote.PokeApi
+import com.example.pokemonsearch.CoroutineTestRule
 import com.example.pokemonsearch.data.remote.responses.PokemonList
 import com.example.pokemonsearch.presenter.listscreen.PokemonListViewModel
 import com.example.pokemonsearch.repository.PokemonRepository
@@ -10,7 +9,6 @@ import com.example.pokemonsearch.util.Resource
 import com.google.gson.GsonBuilder
 import io.mockk.*
 import kotlinx.coroutines.*
-import kotlinx.coroutines.test.*
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -18,17 +16,14 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
-import org.mockito.ArgumentMatchers.anyString
 import util.MockResponseFileReader
-import kotlin.coroutines.coroutineContext
 
 class PokemonListViewModelTest {
 
     //executes each task synchronously
     @get:Rule
-    val instantExecutorRule = InstantTaskExecutorRule()
+    val coroutineTestRule = CoroutineTestRule()
 
-    private val dispatcher = TestCoroutineDispatcher()
     private val repository: PokemonRepository = mockk()
     private lateinit var pokemonViewModel: PokemonListViewModel
     private val gson = GsonBuilder()
@@ -38,7 +33,6 @@ class PokemonListViewModelTest {
 
     @Before
     fun init() {
-        Dispatchers.setMain(dispatcher)
         pokemonViewModel = PokemonListViewModel(repository = repository)
     }
 
@@ -82,7 +76,5 @@ class PokemonListViewModelTest {
     @After
     fun tearDown() {
         clearAllMocks()
-        Dispatchers.resetMain()
-        dispatcher.cleanupTestCoroutines()
     }
 }
