@@ -17,6 +17,7 @@ import util.MockResponseFileReader
 @RunWith(JUnit4::class)
 class TestApiWithGetPokemon {
 
+    //executes each task synchronously
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
 

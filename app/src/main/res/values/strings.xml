@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">PokemonSearch</string>
     <string name="urlPgn">https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${number}.png</string>
+    <string name="BASE_URL">https://pokeapi.co/api/v2/</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.example.pokemonsearch.viewmodel
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.pokemonsearch.data.remote.responses.Pokemon
 import com.example.pokemonsearch.presenter.detailscreen.PokemonDetailViewModel
 import com.example.pokemonsearch.repository.PokemonRepository
@@ -13,11 +14,16 @@ import kotlinx.coroutines.test.setMain
 import org.junit.Assert.*
 import org.junit.After
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
 import util.MockResponseFileReader
 
 class PokemonDetailViewModelTest {
+
+    //executes each task synchronously
+    @get:Rule
+    val instantExecutorRule = InstantTaskExecutorRule()
 
     private val dispatcher = TestCoroutineDispatcher()
 

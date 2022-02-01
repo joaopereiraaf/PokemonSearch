@@ -1,6 +1,10 @@
 package com.example.pokemonsearch.presenter.listscreen
 
+import android.content.Context
+import android.content.res.Resources
+import android.provider.Settings.System.getString
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.content.res.TypedArrayUtils.getText
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pokemonsearch.R
@@ -10,10 +14,7 @@ import com.example.pokemonsearch.util.Constants.PAGE_SIZE
 import com.example.pokemonsearch.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.plus
 import java.util.*
 import javax.inject.Inject
 

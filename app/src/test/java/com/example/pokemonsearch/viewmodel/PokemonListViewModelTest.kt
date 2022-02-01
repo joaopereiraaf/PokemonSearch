@@ -1,5 +1,6 @@
 package com.example.pokemonsearch.viewmodel
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.compose.runtime.mutableStateOf
 import com.example.pokemonsearch.data.remote.PokeApi
 import com.example.pokemonsearch.data.remote.responses.PokemonList
@@ -17,14 +18,18 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
 import util.MockResponseFileReader
 
 class PokemonListViewModelTest {
 
+    //executes each task synchronously
+    @get:Rule
+    val instantExecutorRule = InstantTaskExecutorRule()
+
     private val dispatcher = TestCoroutineDispatcher()
-//    private lateinit var api: PokeApi
     private lateinit var repository: PokemonRepository
     private lateinit var pokemonViewModel: PokemonListViewModel
     private val gson = GsonBuilder()
@@ -36,10 +41,8 @@ class PokemonListViewModelTest {
     fun init() {
         Dispatchers.setMain(dispatcher)
 
-//        api = mockk()
         repository = mockk()
 
-//        repository = PokemonRepository()
         pokemonViewModel = PokemonListViewModel(repository = repository)
     }
 
