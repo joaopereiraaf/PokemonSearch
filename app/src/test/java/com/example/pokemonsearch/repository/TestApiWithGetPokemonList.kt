@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
 import junit.framework.Assert.*
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
@@ -14,6 +15,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.junit.runners.JUnit4
+import org.mockito.ArgumentMatchers.anyInt
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import util.MockResponseFileReader
@@ -24,10 +26,10 @@ class TestApiWithGetPokemonList {
     //executes each task synchronously
     @get:Rule
     val instantExecutorRule = InstantTaskExecutorRule()
+    private val dispatcher = TestCoroutineDispatcher()
 
     private val server = MockWebServer()
     private lateinit var repository: PokemonRepository
-    private lateinit var mockedResponse: String
     private val gson = GsonBuilder()
         .setLenient()
         .serializeNulls()
@@ -36,7 +38,7 @@ class TestApiWithGetPokemonList {
     @Before
     fun init() {
         server.start(8000)
-        var BASE_URL = server.url("/").toString()
+        val BASE_URL = server.url("/").toString()
         val service = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
             .baseUrl(BASE_URL)
@@ -46,14 +48,14 @@ class TestApiWithGetPokemonList {
     }
 
     @Test
-    fun testApiSuccess() {
-        mockedResponse = MockResponseFileReader("testingApi/testGetPokemonList.json").content
+    fun `test api success`() {
+        val mockedResponse = MockResponseFileReader("testingApi/testGetPokemonList.json").content
         server.enqueue(
             MockResponse()
                 .setResponseCode(200)
                 .setBody(mockedResponse)
         )
-        val response = runBlocking { repository.getPokemonList(0, 0) }
+        val response = runBlocking { repository.getPokemonList(anyInt(), anyInt()) }
         val json = gson.toJson(response.data)
 
         val resultResponse = JsonParser.parseString(json)
@@ -63,13 +65,8 @@ class TestApiWithGetPokemonList {
     }
 
     @Test
-    fun testApiError() {
-        server.enqueue(
-            MockResponse()
-                .setResponseCode(code = 400)
-                .setBody("Not Found")
-        )
-        val response = runBlocking { repository.getPokemonList(0, 0) }
+    fun `test api failure`() {
+        val response = runBlocking { repository.getPokemonList(anyInt(), anyInt()) }
         assertNull(response.data)
         assertEquals("An unknown error occurred.", response.message)
     }
@@ -77,5 +74,6 @@ class TestApiWithGetPokemonList {
     @After
     fun tearDown() {
         server.shutdown()
+        dispatcher.cleanupTestCoroutines()
     }
 }

@@ -9,11 +9,8 @@ import com.example.pokemonsearch.repository.PokemonRepository
 import com.example.pokemonsearch.util.Resource
 import com.google.gson.GsonBuilder
 import io.mockk.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.*
+import kotlinx.coroutines.test.*
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
@@ -21,7 +18,9 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.ArgumentMatchers.anyInt
+import org.mockito.ArgumentMatchers.anyString
 import util.MockResponseFileReader
+import kotlin.coroutines.coroutineContext
 
 class PokemonListViewModelTest {
 
@@ -30,7 +29,7 @@ class PokemonListViewModelTest {
     val instantExecutorRule = InstantTaskExecutorRule()
 
     private val dispatcher = TestCoroutineDispatcher()
-    private lateinit var repository: PokemonRepository
+    private val repository: PokemonRepository = mockk()
     private lateinit var pokemonViewModel: PokemonListViewModel
     private val gson = GsonBuilder()
         .setLenient()
@@ -40,9 +39,6 @@ class PokemonListViewModelTest {
     @Before
     fun init() {
         Dispatchers.setMain(dispatcher)
-
-        repository = mockk()
-
         pokemonViewModel = PokemonListViewModel(repository = repository)
     }
 
@@ -62,7 +58,7 @@ class PokemonListViewModelTest {
         assertNotNull(pokemonViewModel.cachedPokemonList)
         coVerify { repository.getPokemonList(20, 0) }
 
-        coVerify { repository.getPokemon(any()) wasNot called}
+        coVerify { repository.getPokemon(any()) wasNot called }
     }
 
     @Test
@@ -85,6 +81,8 @@ class PokemonListViewModelTest {
 
     @After
     fun tearDown() {
+        clearAllMocks()
         Dispatchers.resetMain()
+        dispatcher.cleanupTestCoroutines()
     }
 }
