@@ -1,6 +1,6 @@
 package com.example.pokemonsearch.viewmodel
 
-import com.example.pokemonsearch.CoroutineTestRule
+import com.example.pokemonsearch.coroutines_util.CoroutineTestRule
 import com.example.pokemonsearch.data.remote.responses.Pokemon
 import com.example.pokemonsearch.presenter.detailscreen.PokemonDetailViewModel
 import com.example.pokemonsearch.repository.PokemonRepository

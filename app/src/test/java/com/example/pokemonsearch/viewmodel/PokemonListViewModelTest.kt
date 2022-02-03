@@ -1,7 +1,7 @@
 package com.example.pokemonsearch.viewmodel
 
 import androidx.compose.runtime.mutableStateOf
-import com.example.pokemonsearch.CoroutineTestRule
+import com.example.pokemonsearch.coroutines_util.CoroutineTestRule
 import com.example.pokemonsearch.data.remote.responses.PokemonList
 import com.example.pokemonsearch.presenter.listscreen.PokemonListViewModel
 import com.example.pokemonsearch.repository.PokemonRepository
