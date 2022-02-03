@@ -1,9 +1,10 @@
 package com.example.pokemonsearch.repository
 
-import com.example.pokemonsearch.CoroutineTestRule
+import com.example.pokemonsearch.coroutines_util.CoroutineTestRule
 import com.example.pokemonsearch.data.remote.PokeApi
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonParser
+import io.mockk.clearAllMocks
 import junit.framework.Assert.*
 import kotlinx.coroutines.runBlocking
 import okhttp3.mockwebserver.MockResponse

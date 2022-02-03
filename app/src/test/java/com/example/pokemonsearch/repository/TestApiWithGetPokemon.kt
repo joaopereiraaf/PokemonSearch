@@ -1,6 +1,6 @@
 package com.example.pokemonsearch.repository
 
-import com.example.pokemonsearch.CoroutineTestRule
+import com.example.pokemonsearch.coroutines_util.CoroutineTestRule
 import com.example.pokemonsearch.data.remote.PokeApi
 import com.google.gson.*
 import junit.framework.Assert.*
